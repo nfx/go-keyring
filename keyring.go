@@ -7,8 +7,11 @@ import (
 )
 
 const (
-	// MaxSecretSize is the largest secret supported by every native backend.
-	MaxSecretSize     = 5 * 512
+	// MaxSecretSize is the largest secret supported by every native backend. macOS Keychain and
+	// Linux Secret Service accept 16MB+ items natively; Windows Credential Manager's per-entry
+	// limit is far smaller, so the Windows backend transparently splits larger secrets across
+	// multiple credentials.
+	MaxSecretSize     = 1024 * 1024
 	maxIdentifierSize = 255
 )
 

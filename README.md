@@ -21,7 +21,7 @@ defer store.Close()
 err = store.Set(ctx, "api-token", token)
 ```
 
-Payloads are artificially limited to 2kb and secret keys are limited to 255 bytes.
+Payloads are artificially limited to 1Mb and secret keys are limited to 255 bytes.
 `store.Set` does not mutate its input; `store.Get` returns a fresh caller-owned byte slice. 
 `keyring.Wipe` overwrites a slice on a best-effort basis but cannot erase runtime,
 operating-system, or credential-provider copies. 
