@@ -351,14 +351,14 @@ func (l *linuxBackend) delete(ctx context.Context, service string, account strin
 		return err
 	}
 	defer l.releaseItems(list)
+	cancellable := l.newCancellable(ctx)
+	defer cancellable.release()
 	for current := list; current != nil; current = current.next {
 		if l.api.secretItemGetLocked(current.data) != 0 {
 			return ErrDenied
 		}
-		cancellable := l.newCancellable(ctx)
 		var nativeError unsafe.Pointer
 		success := l.api.secretItemDeleteSync(current.data, cancellable.value, &nativeError)
-		cancellable.release()
 		if success == 0 {
 			return l.api.operationError("delete", ctx, nativeError)
 		}
